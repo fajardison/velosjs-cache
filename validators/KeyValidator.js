@@ -1,53 +1,53 @@
 /**
- * KeyValidator menyediakan metode utilitas untuk memvalidasi key string.
+ * KeyValidator provides utility methods for validating key strings.
  */
 export class KeyValidator {
   /**
-   * Memastikan key bertipe string.
-   * @param {*} key - Nilai yang akan divalidasi.
-   * @throws Jika key bukan string.
+   * Ensures the key is a string.
+   * @param {*} key - The value to validate.
+   * @throws If the key is not a string.
    */
   static ensureString(key) {
     if (typeof key !== 'string') {
-      throw new Error(`[KeyValidator] Key harus berupa string. Diterima: ${typeof key}`);
+      throw new Error(`[KeyValidator] Key must be a string. Received: ${typeof key}`);
     }
   }
 
   /**
-   * Memastikan key adalah string yang tidak kosong.
-   * @param {string} key - Key yang akan divalidasi.
-   * @throws Jika key kosong atau bukan string.
+   * Ensures the key is a non-empty string.
+   * @param {string} key - The key to validate.
+   * @throws If the key is empty or not a string.
    */
   static ensureNonEmptyString(key) {
     this.ensureString(key);
     if (key.trim().length === 0) {
-      throw new Error('[KeyValidator] Key tidak boleh kosong.');
+      throw new Error('[KeyValidator] Key must not be empty.');
     }
   }
 
   /**
-   * Memastikan key sesuai dengan pola RegExp.
-   * @param {string} key - Key yang akan divalidasi.
-   * @param {RegExp} pattern - Pola yang harus cocok dengan key.
-   * @throws Jika key tidak sesuai pola atau pattern bukan RegExp.
+   * Ensures the key matches the given RegExp pattern.
+   * @param {string} key - The key to validate.
+   * @param {RegExp} pattern - The pattern to match against.
+   * @throws If the key does not match the pattern or if pattern is not a RegExp.
    */
   static ensureMatch(key, pattern) {
     this.ensureString(key);
     if (!(pattern instanceof RegExp)) {
-      throw new Error('[KeyValidator] Pola harus berupa RegExp.');
+      throw new Error('[KeyValidator] Pattern must be a RegExp.');
     }
     if (!pattern.test(key)) {
-      throw new Error(`[KeyValidator] Key "${key}" tidak sesuai dengan pola yang diminta.`);
+      throw new Error(`[KeyValidator] Key "${key}" does not match the required pattern.`);
     }
   }
 
   /**
-   * Validasi lengkap terhadap key.
-   * @param {string} key - Key yang akan divalidasi.
-   * @param {Object} [options] - Opsi validasi.
-   * @param {boolean} [options.nonEmpty=true] - Apakah key harus tidak kosong.
-   * @param {RegExp|null} [options.pattern=null] - Pola yang harus cocok (jika ada).
-   * @throws Jika key tidak valid berdasarkan opsi.
+   * Performs full key validation.
+   * @param {string} key - The key to validate.
+   * @param {Object} [options] - Validation options.
+   * @param {boolean} [options.nonEmpty=true] - Whether the key must be non-empty.
+   * @param {RegExp|null} [options.pattern=null] - Pattern the key must match, if any.
+   * @throws If the key is invalid based on the options.
    */
   static validate(key, { nonEmpty = true, pattern = null } = {}) {
     this.ensureString(key);
