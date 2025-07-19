@@ -1,13 +1,13 @@
 /**
- * LRUEviction implements Least Recently Used eviction strategy.
+ * Implements the Least Recently Used (LRU) eviction strategy.
  * Evicts the key with the oldest last access timestamp.
  */
 export class LRUEviction {
   /**
-   * Selects the least recently accessed key for eviction.
-   * @param {string[]} keys - List of keys in the cache.
-   * @param {Object<string, { lastAccess: number }>} metadata - Access metadata for each key.
-   * @returns {string} The key to evict.
+   * Selects the least recently accessed key from the list.
+   * @param {string[]} keys - List of cache keys.
+   * @param {Object<string, { lastAccess: number }>} metadata - Last access timestamp metadata.
+   * @returns {string} The least recently used key.
    * @throws {Error} If keys is not a non-empty array or metadata is invalid.
    */
   evict(keys, metadata = {}) {
