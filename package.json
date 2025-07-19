@@ -8,7 +8,7 @@
     "./stats": "./statistic/Stats.js"
   },
   "files": [
-    "cache/",
+    "store/",
     "eviction",
     "constants/",
     "validators/",
@@ -16,6 +16,7 @@
     "utils/",
     "Cache.js",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "scripts": {
@@ -24,10 +25,13 @@
   "author": "Dimas Fajar",
   "license": "MIT",
   "description": "Efficient and lightweight caching utility for VelosJS — includes in-memory caching, optional persistence, and statistics.",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "homepage": "https://github.com/fajardison/velosjs-cache",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fajardison/velosjs-cache.git"
+    "url": "git+https://github.com/fajardison/velosjs-cache.git"
   },
   "bugs": {
     "url": "https://github.com/fajardison/velosjs-cache/issues"
