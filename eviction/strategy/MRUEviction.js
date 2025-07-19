@@ -1,12 +1,14 @@
 /**
- * MRUEviction implements Most Recently Used eviction strategy.
- * Menghapus key yang paling baru diakses.
+ * Implements the Most Recently Used (MRU) eviction strategy.
+ * Evicts the key with the most recent access timestamp.
  */
 export class MRUEviction {
   /**
-   * @param {string[]} keys - Daftar key.
-   * @param {Object<string, { lastAccess: number }>} metadata - Timestamp akses terakhir.
-   * @returns {string} Key yang terakhir digunakan.
+   * Selects the most recently accessed key from the list.
+   * @param {string[]} keys - List of cache keys.
+   * @param {Object<string, { lastAccess: number }>} metadata - Last access timestamp metadata.
+   * @returns {string} The most recently used key.
+   * @throws {Error} If keys is not a non-empty array or metadata is invalid.
    */
   evict(keys, metadata = {}) {
     if (!Array.isArray(keys) || keys.length === 0) {
