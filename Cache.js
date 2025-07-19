@@ -4,15 +4,18 @@ import { TTLManager } from './ttl/TTLManager.js';
 import { Cleaner } from './ttl/Cleaner.js';
 import Logger from './utils/Logger.js';
 
+/**
+ * A cache system with TTL, auto-cleaning, optional logging, and eviction policies.
+ */
 export default class Cache {
   /**
-   * Inisialisasi cache dengan konfigurasi opsional
+   * Initialize the cache with optional configuration.
    * @param {Object} options
-   * @param {boolean} [options.useLogger=false] - Aktifkan logging
-   * @param {number} [options.cleanInterval=60000] - Interval pembersihan TTL (ms)
-   * @param {number|null} [options.maxSize=null] - Maksimal item dalam cache
-   * @param {string|null} [options.evictionPolicy=null] - Strategi pengusiran item (mis. 'LRU')
-   * @param {number} [options.defaultTTL=60000] - TTL default (ms)
+   * @param {boolean} [options.useLogger=false] - Enable logging.
+   * @param {number} [options.cleanInterval=60000] - Auto-clean interval in ms.
+   * @param {number|null} [options.maxSize=null] - Maximum number of items in the cache.
+   * @param {string|null} [options.evictionPolicy=null] - Eviction strategy (e.g., 'LRU').
+   * @param {number} [options.defaultTTL=60000] - Default TTL in ms.
    */
   constructor({
     useLogger = false,
@@ -33,10 +36,10 @@ export default class Cache {
   }
 
   /**
-   * Simpan data ke cache dengan TTL
+   * Store a value in the cache with optional TTL.
    * @param {string} key
-   * @param {any} value
-   * @param {number} [ttl] - TTL dalam milidetik (opsional)
+   * @param {*} value
+   * @param {number} [ttl] - Time to live in ms.
    */
   set(key, value, ttl = this.defaultTTL) {
     const entry = new TTL(value, ttl);
@@ -44,9 +47,9 @@ export default class Cache {
   }
 
   /**
-   * Ambil data dari cache jika belum kadaluarsa
+   * Retrieve a value if it's not expired.
    * @param {string} key
-   * @returns {any | undefined}
+   * @returns {*|undefined}
    */
   get(key) {
     const entry = this.store.get(key);
@@ -59,18 +62,18 @@ export default class Cache {
   }
 
   /**
-   * Ambil dari cache atau fetch jika belum tersedia
+   * Get a cached value or fetch and store it if missing/expired.
    * @param {string} key
-   * @param {number} ttl - TTL untuk data baru jika di-fetch
-   * @param {Function} fetchFn - Fungsi async untuk mengambil data jika tidak tersedia
-   * @returns {Promise<any>}
+   * @param {number} ttl - TTL for the fetched value.
+   * @param {Function} fetchFn - Async function to fetch the value.
+   * @returns {Promise<*>}
    */
   async getOrFetch(key, ttl, fetchFn) {
     return this.ttlManager.getOrFetch(key, ttl, fetchFn);
   }
 
   /**
-   * Cek apakah key tersedia dan belum kadaluarsa
+   * Check if a key exists and is not expired.
    * @param {string} key
    * @returns {boolean}
    */
@@ -79,7 +82,7 @@ export default class Cache {
   }
 
   /**
-   * Hapus item dari cache
+   * Remove a key from the cache.
    * @param {string} key
    * @returns {boolean}
    */
@@ -88,21 +91,21 @@ export default class Cache {
   }
 
   /**
-   * Kosongkan seluruh cache
+   * Clear all cached entries.
    */
   clear() {
     this.store.clear();
   }
 
   /**
-   * Hentikan proses pembersih otomatis
+   * Stop the automatic cleaner.
    */
   stopCleaner() {
     this.cleaner.stop();
   }
 
   /**
-   * Serialisasi isi cache ke format JSON
+   * Export cache content to JSON format.
    * @returns {Object}
    */
   toJSON() {
@@ -110,7 +113,7 @@ export default class Cache {
   }
 
   /**
-   * Muat cache dari hasil serialisasi JSON
+   * Restore cache from JSON data.
    * @param {Object} json
    */
   restoreFromJSON(json) {
@@ -118,7 +121,7 @@ export default class Cache {
   }
 
   /**
-   * Dapatkan jumlah item aktif dalam cache
+   * Get the current number of active cache entries.
    * @returns {number}
    */
   size() {
