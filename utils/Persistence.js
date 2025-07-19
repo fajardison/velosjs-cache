@@ -1,19 +1,15 @@
-// utils/Persistence.js
 import fs from 'fs/promises';
 
 export default class Persistence {
   /**
-   * Simpan entri ke dalam file JSON
-   * @param {string} filePath - Lokasi file penyimpanan
-   * @param {object} entries - Data yang akan disimpan (harus object literal)
+   * Save entries to a JSON file.
+   * @param {string} filePath - Path to the JSON file.
+   * @param {object} entries - Data to save (must be a plain object).
+   * @throws {TypeError} If entries is not a valid object.
    */
   static async save(filePath, entries) {
-    if (
-      !entries ||
-      typeof entries !== 'object' ||
-      Array.isArray(entries)
-    ) {
-      throw new TypeError('[Persistence] Entries harus berupa object literal yang valid');
+    if (!entries || typeof entries !== 'object' || Array.isArray(entries)) {
+      throw new TypeError('[Persistence] Entries must be a valid plain object');
     }
 
     const json = JSON.stringify(entries, null, 2);
@@ -21,9 +17,10 @@ export default class Persistence {
   }
 
   /**
-   * Memuat entri dari file JSON
-   * @param {string} filePath - Lokasi file penyimpanan
-   * @returns {Promise<object>} - Object hasil parsing file
+   * Load entries from a JSON file.
+   * @param {string} filePath - Path to the JSON file.
+   * @returns {Promise<object>} Parsed JSON object from file.
+   * @throws {TypeError} If the file content is not a valid object.
    */
   static async load(filePath) {
     try {
@@ -31,7 +28,7 @@ export default class Persistence {
       const parsed = JSON.parse(data);
 
       if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
-        throw new TypeError('[Persistence] File tidak berisi object JSON yang valid');
+        throw new TypeError('[Persistence] File does not contain a valid JSON object');
       }
 
       return parsed;
