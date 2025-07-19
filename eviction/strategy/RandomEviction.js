@@ -1,11 +1,13 @@
 /**
- * RandomEviction implements random eviction strategy.
- * Memilih key secara acak untuk dihapus.
+ * Implements the Random eviction strategy.
+ * Evicts a randomly selected key from the cache.
  */
 export class RandomEviction {
   /**
-   * @param {string[]} keys - Daftar key dalam cache.
-   * @returns {string} Key yang akan dihapus.
+   * Selects a random key from the list for eviction.
+   * @param {string[]} keys - List of keys in the cache.
+   * @returns {string} A randomly selected key to evict.
+   * @throws {Error} If keys is not a non-empty array.
    */
   evict(keys) {
     if (!Array.isArray(keys) || keys.length === 0) {
