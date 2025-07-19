@@ -4,6 +4,7 @@
 [![Version](https://img.shields.io/badge/Version-v1.0.0-blue)](https://www.npmjs.com/package/@velosjs/cache?activeTab=versions)
 [![License](https://img.shields.io/badge/License-MIT-green)](https://github.com/fajardison/velosjs-cache/blob/main/LICENSE)
 [![ESM](https://img.shields.io/badge/javascript-ESM-orange)](https://nodejs.org/api/esm.html)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-blue)](https://nodejs.org/)
 
 > Efficient and lightweight caching utility for **VelosJS** — includes in-memory caching, optional persistent storage, and built-in statistics monitoring.
 
@@ -15,6 +16,7 @@
 - 💾 Optional persistence to file
 - 📊 Built-in statistics tracker
 - 🧠 Smart `getOrFetch` mechanism
+- 🧹 Supports multiple eviction strategies
 - ✅ Modular and extensible
 
 ---
@@ -23,6 +25,16 @@
 
 ```bash
 npm install @velosjs/cache
+```
+
+---
+
+## 🗂️ Exports
+
+```js
+import Cache from '@velosjs/cache'
+import Persistence from '@velosjs/cache/persistence'
+import Stats from '@velosjs/cache/stats'
 ```
 
 ---
@@ -52,12 +64,20 @@ console.log(result)
 
 ---
 
-## 🗂️ Exports
+## 🧹 Eviction Strategies
+
+Built-in eviction policies:
+
+- Least Recently Used (LRU)
+- Most Recently Used (MRU)
+- First-In-First-Out (FIFO)
+- Least Frequently Used (LFU)
+- Random
+
+You can switch policies by specifying the strategy on initialization:
 
 ```js
-import Cache from '@velosjs/cache'
-import Persistence from '@velosjs/cache/persistence'
-import Stats from '@velosjs/cache/stats'
+const cache = new Cache({ evictionPolicy: 'LRU' })
 ```
 
 ---
@@ -66,29 +86,29 @@ import Stats from '@velosjs/cache/stats'
 
 ### `cache.set(key, value, ttl?)`
 
-Menyimpan entri ke dalam cache dengan optional TTL (dalam milidetik).
+Stores an entry in the cache with an optional TTL (in milliseconds).
 
 ### `cache.get(key)`
 
-Mengambil nilai dari cache. Akan `undefined` jika tidak ditemukan atau sudah expired.
+Retrieves a value from the cache. Returns `undefined` if not found or expired.
 
 ### `cache.getOrFetch(key, ttl, fetchFn)`
 
-Jika entri tersedia di cache, maka dikembalikan. Jika tidak, maka `fetchFn()` akan dipanggil dan hasilnya disimpan ke cache untuk TTL yang diberikan.
+If the entry exists and is valid, returns it. Otherwise, calls `fetchFn()`, caches the result, and returns it.
 
 ### `cache.delete(key)`
 
-Menghapus entri berdasarkan key.
+Removes an entry by its key.
 
 ### `cache.clear()`
 
-Menghapus seluruh entri dalam cache.
+Removes all entries from the cache.
 
 ---
 
 ## 💾 Persistence
 
-Fitur ini memungkinkan penyimpanan cache ke file agar dapat dipulihkan saat aplikasi dijalankan ulang.
+This feature allows the cache to be saved and restored from file:
 
 ```js
 import Persistence from '@velosjs/cache/persistence'
@@ -99,9 +119,9 @@ await Persistence.load('cache.json', cache)
 
 ---
 
-## 📊 Statistik
+## 📊 Statistics
 
-Modul statistik bawaan untuk memantau performa cache:
+Built-in statistics module to track cache performance:
 
 ```js
 import Stats from '@velosjs/cache/stats'
