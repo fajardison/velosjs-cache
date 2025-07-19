@@ -1,11 +1,11 @@
 /**
- * Logger adalah utilitas logging sederhana dengan prefix dan level log.
+ * Logger is a simple utility for conditional logging with prefix and log levels.
  */
 export default class Logger {
   /**
-   * Membuat instance Logger.
-   * @param {boolean} [enabled=false] - Menentukan apakah log akan ditampilkan.
-   * @param {string} [prefix='Store'] - Prefix yang digunakan dalam output log.
+   * Creates a Logger instance.
+   * @param {boolean} [enabled=false] - Whether logging is enabled.
+   * @param {string} [prefix='Store'] - Prefix for all log outputs.
    */
   constructor(enabled = false, prefix = 'Store') {
     this.enabled = enabled;
@@ -13,32 +13,32 @@ export default class Logger {
   }
 
   /**
-   * Menampilkan log umum ke console.
-   * @param  {...any} args - Argumen yang akan dicetak.
+   * Logs general messages to the console.
+   * @param  {...any} args - Arguments to log.
    */
   log(...args) {
     if (this.enabled) console.log(this.prefix, ...args);
   }
 
   /**
-   * Menampilkan log informasi ke console.
-   * @param  {...any} args - Argumen yang akan dicetak sebagai info.
+   * Logs info-level messages to the console.
+   * @param  {...any} args - Arguments to log as info.
    */
   info(...args) {
     if (this.enabled) console.info(this.prefix, '[INFO]', ...args);
   }
 
   /**
-   * Menampilkan peringatan ke console.
-   * @param  {...any} args - Argumen yang akan dicetak sebagai peringatan.
+   * Logs warning messages to the console.
+   * @param  {...any} args - Arguments to log as warning.
    */
   warn(...args) {
     if (this.enabled) console.warn(this.prefix, '[WARN]', ...args);
   }
 
   /**
-   * Menampilkan kesalahan ke console.
-   * @param  {...any} args - Argumen yang akan dicetak sebagai error.
+   * Logs error messages to the console.
+   * @param  {...any} args - Arguments to log as error.
    */
   error(...args) {
     if (this.enabled) console.error(this.prefix, '[ERROR]', ...args);
